@@ -1,5 +1,5 @@
 <template>
-    <div class="row g-5">
+    <div class="row g-4">
         <div v-for="item in list" class="col-xl-2 col-lg-3 col-md-4 col-6">
             <div class="d-flex flex-column gap-2">
 
