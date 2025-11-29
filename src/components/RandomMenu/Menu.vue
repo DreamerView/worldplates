@@ -13,7 +13,7 @@
             <div class="col-9 d-flex flex-column gap-3 justify-content-center">
                 <h5 class="m-0 text-truncate">{{ data?.meals[0]?.strMeal || "Unknown"  }}</h5>
                 <div>
-                    <button class="btn btn-warning rounded-4" style="font-size:0.8rem;">Read more</button>
+                    <router-link :to="'/view/'+data?.meals[0]?.idMeal" class="btn btn-warning rounded-4" style="font-size:0.8rem;">Read more</router-link>
                 </div>
             </div>
         </div>
