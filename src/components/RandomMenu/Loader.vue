@@ -8,7 +8,7 @@
             <div class="col-9 d-flex flex-column gap-3 justify-content-center">
                 <h5 class="m-0 text-truncate">Loading</h5>
                 <div>
-                    <button class="btn btn-warning btn-small rounded-4" disabled>Read more</button>
+                    <button class="btn btn-warning btn-small rounded-4" style="font-size:0.8rem;" disabled>Read more</button>
                 </div>
             </div>
         </div>

@@ -2,13 +2,13 @@
     <div class="container-xl">
         <h3 class="my-4">Random menu for Today</h3>
         <div class="row g-4">
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-xl-4 col-md-6 col-12">
                 <RandomMenu />
             </div>
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-xl-4 col-md-6 col-12">
                 <RandomMenu />
             </div>
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-xl-4 col-md-6 col-12">
                 <RandomMenu />
             </div>
         </div>

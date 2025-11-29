@@ -1,6 +1,6 @@
 <template>
-    <div class="bg-body-secondary p-3 rounded-5">
-        <div class="row align-items-center" v-if="loading">
+    <div class="bg-body-secondary p-xl-3 p-2 border rounded-5">
+        <div v-if="loading">
             <RandomMenuLoader />
         </div>
         <div v-else-if="error">
@@ -13,7 +13,7 @@
             <div class="col-9 d-flex flex-column gap-3 justify-content-center">
                 <h5 class="m-0 text-truncate">{{ data?.meals[0]?.strMeal || "Unknown"  }}</h5>
                 <div>
-                    <button class="btn btn-warning btn-small rounded-4">Read more</button>
+                    <button class="btn btn-warning rounded-4" style="font-size:0.8rem;">Read more</button>
                 </div>
             </div>
         </div>

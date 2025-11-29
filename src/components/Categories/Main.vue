@@ -8,7 +8,7 @@
         </div>
         <div v-else>
             <div class="d-flex gap-3 overflow-x-hidden pb-2">
-                <div class="d-flex flex-column gap-2" v-for="item in (data?.categories || [])" :key="item.idCategory">
+                <div :title="item?.strCategory || 'Unknown'" style="width:80px" class="d-flex flex-column gap-2" v-for="item in (data?.categories || [])" :key="item.idCategory">
                     <div class="bg-body-secondary border rounded-5 d-flex align-items-center justify-content-center" style="width:80px;height:80px;">
                         <img v-if="item.strCategoryThumb" class="rounded-4 mx-auto" loading="lazy" :src="item.strCategoryThumb" width="auto" height="40" alt=""/>
                     </div>
