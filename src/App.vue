@@ -1,5 +1,5 @@
 <template>
-  <header class="container-xl my-4">
+  <header class="container-xl py-2 my-2 position-sticky top-0 bg-body">
     <div class="row">
       <div class="col-6">
         <router-link to="/">
