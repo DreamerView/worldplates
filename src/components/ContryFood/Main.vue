@@ -2,10 +2,10 @@
     <div class="container-xl my-4">
         <h3 class="mb-4">Favourite food from different countries</h3>
         <div class="row g-4">
-            <div class="col-xl-1 col-lg-2 col-md-3 col-4" v-for="item in areas">
+            <router-link :to="'/country/'+item" style="text-decoration: none;" class="col-xl-1 col-lg-2 col-md-3 col-4" v-for="item in areas">
                 <img :src="'/country/'+item.toLowerCase()+'.jpg'" loading="lazy" class="w-100 rounded-5 h-auto bg-body-secondary" style="aspect-ratio: 1;" alt=""/>
-                <h6 class="text-center mt-3">{{ item }}</h6>
-            </div>
+                <h6 class="text-center mt-3 text-body">{{ item }}</h6>
+            </router-link>
         </div>
     </div>
 </template>
