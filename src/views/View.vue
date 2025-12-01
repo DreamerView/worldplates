@@ -3,8 +3,8 @@
     <div class="row g-xl-5 g-4">
       <div class="col-lg-5 col-sm-6">
         <div v-if="loading" class="w-100 h-auto bg-body-secondary rounded-5" style="aspect-ratio: 1;" />
-        <img v-else :src="data?.meals[0]?.strMealThumb" class="w-100 h-auto bg-body-secondary rounded-5"
-          style="aspect-ratio: 1;" alt="" />
+        <SmartImg v-else :src="data?.meals[0]?.strMealThumb+'/large'" class="w-100 h-auto bg-body-secondary rounded-5"
+          style="aspect-ratio: 1;" />
       </div>
       <div class="col-lg-7 col-sm-6">
         <div class="d-flex flex-column justify-content-center  gap-1 h-100 ms-sm-5">
@@ -81,6 +81,7 @@
     useFetch
   } from "../composables/useFetch";
   import YouTubeEmbed from "../components/YouTubeEmbed.vue";
+  import SmartImg from "../composables/SmartImg.vue";
   const props = defineProps({
     id: String
   });

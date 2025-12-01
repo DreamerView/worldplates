@@ -3,7 +3,11 @@
         <h3 class="mb-4">Favourite food from different countries</h3>
         <div class="row g-4">
             <router-link :to="'/country/'+item" style="text-decoration: none;" class="col-xl-1 col-lg-2 col-md-3 col-4" v-for="item in areas">
-                <img :src="'/country/'+item.toLowerCase()+'.jpg'" loading="lazy" class="w-100 rounded-5 h-auto bg-body-secondary" style="aspect-ratio: 1;" alt=""/>
+                <SmartImg
+                    :src="'/country/'+item.toLowerCase()+'.jpg'"
+                    class="w-100 rounded-5 h-auto bg-body-secondary"
+                    style="aspect-ratio:1;"
+                />
                 <h6 class="text-center mt-3 text-body">{{ item }}</h6>
             </router-link>
         </div>
@@ -11,6 +15,7 @@
 </template>
 
 <script setup>
+    import SmartImg from '../../composables/SmartImg.vue';
     const areas = [
         "American",
         "British",

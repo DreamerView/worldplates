@@ -10,7 +10,7 @@
             <div class="d-flex gap-3 overflow-x-auto pb-2">
                 <router-link :to="'/categories/'+item?.strCategory" :title="item?.strCategory || 'Unknown'" style="width:80px;all:unset" class="d-flex flex-column gap-2" v-for="item in (data?.categories || [])" :key="item.idCategory">
                     <div class="bg-body-secondary border rounded-5 d-flex align-items-center justify-content-center" style="width:80px;height:80px;">
-                        <img v-if="item.strCategoryThumb" class="rounded-4 mx-auto" loading="lazy" :src="item.strCategoryThumb" width="auto" height="40" alt=""/>
+                        <SmartImg v-if="item.strCategoryThumb" class="rounded-4 mx-auto" loading="lazy" style="height:40px;" :src="item.strCategoryThumb" />
                     </div>
                     <p class="text-center text-truncate m-0 fw-bold" style="font-size:0.8rem;">{{ item?.strCategory || "Unknown" }}</p>
                 </router-link>
@@ -23,6 +23,7 @@
     import { onMounted } from 'vue';
     import { useFetch } from "../../composables/useFetch";
     import Loader from './Loader.vue';
+    import SmartImg from '../../composables/SmartImg.vue';
 
     const { data, loading, error, errorText, execute } = useFetch(
         "https://www.themealdb.com/api/json/v1/1/categories.php"
