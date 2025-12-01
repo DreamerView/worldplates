@@ -10,7 +10,7 @@
   </div>
 
   <div v-else class="w-100 h-auto bg-body-secondary rounded-4 d-flex align-items-center justify-content-center" style="aspect-ratio:16/9;">
-    <h1 class="text-muted">{{ data?.meals?.[0]?.strYoutube===""?"Invalid YouTube URL":"" }}</h1>
+    <h1 class="text-muted">Invalid YouTube URL</h1>
   </div>
 </template>
 
