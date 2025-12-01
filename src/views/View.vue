@@ -8,7 +8,8 @@
       </div>
       <div class="col-lg-7 col-sm-6">
         <div class="d-flex flex-column justify-content-center  gap-1 h-100 ms-sm-5">
-          <span class="text-muted">
+          <div class="bg-body-secondary rounded-4" style="height:24px;max-width:150px;width:100%;" v-if="loading"/>
+          <span v-else class="text-muted">
             Category: 
             <a v-if="data?.meals[0]?.strCategory" :href="'/categories/'+data.meals[0].strCategory" target="_blank"
               rel="noopener noreferrer">
@@ -16,16 +17,19 @@
             </a>
             <span v-else>Unknown</span>
           </span>
-          <h1 class="m-0 mt-2">{{ data?.meals[0]?.strMeal || "Unknown" }}</h1>
+          <div class="bg-body-secondary rounded-4 m-0 mt-2" style="height:40px;max-width:250px;width:100%;" v-if="loading"/>
+          <h1 v-else class="m-0 mt-2">{{ data?.meals[0]?.strMeal || "Unknown" }}</h1>
           <div class="mt-4">
-            <p class="m-0 mb-2">Area:
+            <div class="bg-body-secondary rounded-4 m-0 mb-2" style="height:24px;max-width:150px;width:100%;" v-if="loading"/>
+            <p v-else class="m-0 mb-2">Area:
               <a v-if="data?.meals[0]?.strArea" :href="'/country/'+data.meals[0].strArea" target="_blank"
                 rel="noopener noreferrer">
                 {{data.meals[0].strArea}}
               </a>
               <span v-else>Unknown</span>
             </p>
-            <p class="m-0">
+            <div class="bg-body-secondary rounded-4 m-0" style="height:24px;max-width:150px;width:100%;" v-if="loading"/>
+            <p v-else class="m-0">
               Source:
               <a v-if="data?.meals[0]?.strSource" :href="data.meals[0].strSource" target="_blank"
                 rel="noopener noreferrer">
@@ -36,19 +40,31 @@
           </div>
           <div class="d-lg-block d-none">
             <h5 class="my-4">Ingredients</h5>
-            <div class="d-flex flex-wrap gap-2 mt-2">
+            <div class="d-flex flex-wrap gap-2 mt-2" v-if="loading">
+              <div class="bg-body-secondary d-flex border py-1 px-3 rounded-5"
+                v-for="item in Array(14).fill(0)" style="width:100px;height:32px;">
+              </div>
+            </div>
+            <div v-else class="d-flex flex-wrap gap-2 mt-2">
               <div class="bg-body-secondary d-flex border py-1 px-3 rounded-5"
                 v-for="item in getIngredients(data?.meals[0])">
                 {{ item.name }}: <b>{{ item.value }}</b>
               </div>
             </div>
           </div>
-          {{ data?.meals[0]?.strTags }}
+          <h5 class="my-4">Tags</h5>
+          <div class="bg-body-secondary rounded-4" style="height:24px;max-width:150px;width:100%;" v-if="loading"/>
+          <p v-else class="text-muted">{{ data?.meals[0]?.strTags || "No tags" }}</p>
         </div>
       </div>
       <div class="col-12 d-lg-none d-block">
         <h5 class="mb-4">Ingredients</h5>
-        <div class="d-flex flex-wrap gap-2 mt-2">
+        <div class="d-flex flex-wrap gap-2 mt-2" v-if="loading">
+          <div class="bg-body-secondary d-flex border py-1 px-3 rounded-5"
+            v-for="item in Array(14).fill(0)" style="width:100px;height:32px;">
+          </div>
+        </div>
+        <div v-else class="d-flex flex-wrap gap-2 mt-2">
           <div class="bg-body-secondary d-flex border py-1 px-3 rounded-5"
             v-for="item in getIngredients(data?.meals[0])">
             {{ item.name }}: <b>{{ item.value }}</b>
@@ -56,6 +72,9 @@
         </div>
       </div>
       <div class="col-lg-6" v-if="!loading && data?.meals?.[0]?.strYoutube">
+        <div class="w-100 h-auto bg-body-secondary rounded-4" style="aspect-ratio: 16/9;">
+
+        </div>
         <YouTubeEmbed :url="data?.meals[0]?.strYoutube" />
       </div>
       <div class="col-lg-6">
@@ -82,6 +101,7 @@
   } from "../composables/useFetch";
   import YouTubeEmbed from "../components/YouTubeEmbed.vue";
   import SmartImg from "../composables/SmartImg.vue";
+  const skeletonList = Array.from({ length: 14 });
   const props = defineProps({
     id: String
   });
