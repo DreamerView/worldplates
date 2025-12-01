@@ -71,19 +71,29 @@
           </div>
         </div>
       </div>
-      <div class="col-lg-6" v-if="!loading && data?.meals?.[0]?.strYoutube">
-        <div class="w-100 h-auto bg-body-secondary rounded-4" style="aspect-ratio: 16/9;">
+      <div v-if="loading || data?.meals[0]?.strYoutube" class="col-lg-6 h-auto" style="aspect-ratio: 16/9;">
+        <div class="w-100 h-auto" style="aspect-ratio: 16/9;">
+          <div v-if="loading" class="w-100 h-auto bg-body-secondary rounded-4" style="aspect-ratio: 16/9;">
 
+          </div>
+          <YouTubeEmbed v-else :url="data?.meals[0]?.strYoutube" />
         </div>
-        <YouTubeEmbed :url="data?.meals[0]?.strYoutube" />
       </div>
       <div class="col-lg-6">
-        <div class="bg-body-secondary p-4 rounded-4">
-          <ul class="m-0 p-0">
-            <li v-for="(sentence, i) in instructions" :key="i" class="mb-2">
-              {{ sentence }}
-            </li>
-          </ul>
+        <div class="h-100">
+          <h4 class="mb-4">Steps:</h4>
+          <div class="d-flex flex-wrap gap-2">
+            <div v-if="loading" class="form-check bg-body-secondary py-2 px-5 rounded-4" v-for="item in Array(14).fill(0)">
+              <label class="form-check-label">
+              </label>
+            </div>
+            <div v-else class="form-check bg-body-secondary py-2 px-5 rounded-4" v-for="(sentence, i) in instructions">
+              <input class="form-check-input" type="checkbox" value="" :id="'step_'+i">
+              <label class="form-check-label" :for="'step_'+i">
+                {{ sentence }}
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
