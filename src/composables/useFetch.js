@@ -1,6 +1,8 @@
-import { reactive, toRefs } from "vue";
+import { reactive, toRefs, ref } from "vue";
 
-export function useFetch(url) {
+export function useFetch(initialUrl) {
+  const url = ref(initialUrl);
+
   const state = reactive({
     data: null,
     error: false,
@@ -8,13 +10,15 @@ export function useFetch(url) {
     loading: false,
   });
 
-  const execute = async () => {
+  const execute = async (newUrl) => {
     try {
+      if (newUrl) url.value = newUrl;
+
       state.error = false;
       state.errorText = "";
       state.loading = true;
 
-      const req = await fetch(url);
+      const req = await fetch(url.value);
 
       if (!req.ok) {
         throw new Error("The server is unavailable. Please try again later.");
@@ -34,7 +38,7 @@ export function useFetch(url) {
   };
 
   return {
-    ...toRefs(state), // <-- KEEP REACTIVITY
+    ...toRefs(state),
     execute,
   };
 }

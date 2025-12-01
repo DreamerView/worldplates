@@ -1,11 +1,13 @@
 <template>
   <div class="container-xl my-4">
     <div class="row g-xl-5 g-4">
+      <!--  -->
       <div class="col-lg-5 col-sm-6">
         <div v-if="loading" class="w-100 h-auto bg-body-secondary rounded-5" style="aspect-ratio: 1;" />
         <SmartImg v-else :src="data?.meals[0]?.strMealThumb+'/large'" class="w-100 h-auto bg-body-secondary rounded-5"
           style="aspect-ratio: 1;" />
       </div>
+      <!--  -->
       <div class="col-lg-7 col-sm-6">
         <div class="d-flex flex-column justify-content-center  gap-1 h-100 ms-sm-5">
           <div class="bg-body-secondary rounded-4" style="height:24px;max-width:150px;width:100%;" v-if="loading"/>
@@ -57,6 +59,7 @@
           <p v-else class="text-muted">{{ data?.meals[0]?.strTags || "No tags" }}</p>
         </div>
       </div>
+      <!--  -->
       <div class="col-12 d-lg-none d-block">
         <h5 class="mb-4">Ingredients</h5>
         <div class="d-flex flex-wrap gap-2 mt-2" v-if="loading">
@@ -71,15 +74,20 @@
           </div>
         </div>
       </div>
-      <div v-if="loading || data?.meals[0]?.strYoutube" class="col-lg-6 h-auto" style="aspect-ratio: 16/9;">
-        <div class="w-100 h-auto" style="aspect-ratio: 16/9;">
-          <div v-if="loading" class="w-100 h-auto bg-body-secondary rounded-4" style="aspect-ratio: 16/9;">
-
+      <!--  -->
+      <div class="col-lg-6 h-auto">
+        <div class="w-100 h-auto" style="aspect-ratio: 16/9;" ref="youtubeCol">
+          <YouTubeEmbed 
+            v-if="!loading && data?.meals[0]?.strYoutube" 
+            :url="data.meals[0].strYoutube" 
+          />
+          <div v-else class="w-100 h-auto bg-body-secondary rounded-4 d-flex align-items-center justify-content-center" style="aspect-ratio:16/9;">
+            <h1 class="text-muted">{{ data?.meals?.[0]?.strYoutube===""?"Video not found":"" }}</h1>
           </div>
-          <YouTubeEmbed v-else :url="data?.meals[0]?.strYoutube" />
         </div>
       </div>
-      <div class="col-lg-6">
+      <!--  -->
+      <div class="col-lg-6 overflow-y-auto" :style="clientWidth >= 991 ? { height: youtubeHeight + 'px' } : {}">
         <div class="h-100">
           <h4 class="mb-4">Steps:</h4>
           <div class="d-flex flex-wrap gap-2">
@@ -97,13 +105,18 @@
         </div>
       </div>
     </div>
+    <!--  -->
+    <AlternativeMain v-if="!loading" :category="data?.meals[0]?.strCategory" />
   </div>
 </template>
 
 <script setup>
   import {
     onMounted,
+    onUnmounted,
+    ref,
     watchEffect,
+    watch,
     computed
   } from "vue";
   import {
@@ -111,9 +124,54 @@
   } from "../composables/useFetch";
   import YouTubeEmbed from "../components/YouTubeEmbed.vue";
   import SmartImg from "../composables/SmartImg.vue";
-  const skeletonList = Array.from({ length: 14 });
+  import AlternativeMain from "../components/Alternative/Main.vue"
+
   const props = defineProps({
     id: String
+  });
+
+  const {
+    data,
+    loading,
+    error,
+    errorText,
+    execute
+  } = useFetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${props.id}`
+  );
+
+  const youtubeCol = ref(null);
+  const youtubeHeight = ref(0);
+  const clientWidth = ref(0);
+  const dpr = ref(window.devicePixelRatio);
+
+  function updateHeight() {
+    if (youtubeCol.value) {
+      youtubeHeight.value = youtubeCol.value.offsetHeight;
+    }
+    clientWidth.value = window.innerWidth; 
+    dpr.value = window.devicePixelRatio;
+  }
+
+  watch(()=>youtubeCol,()=>{
+    updateHeight();
+  })
+
+  onMounted(() => {
+    updateHeight()
+    // обычный resize
+    window.addEventListener("resize", updateHeight);
+
+    // zoom detection
+    window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+          .addEventListener("change", updateHeight);
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener("resize", updateHeight);
+
+    window.matchMedia(`(resolution: ${window.devicePixelRatio}dppx)`)
+          .removeEventListener("change", updateHeight);
   });
 
   function getIngredients(meal) {
@@ -132,15 +190,6 @@
     }
     return result;
   }
-  const {
-    data,
-    loading,
-    error,
-    errorText,
-    execute
-  } = useFetch(
-    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${props.id}`
-  );
 
   function splitSentences(text) {
     if (!text) return [];
@@ -151,8 +200,14 @@
     return splitSentences(raw);
   });
   watchEffect(() => {
-    console.log(props.id);
-    console.log(data);
+    console.log(data)
   });
-  onMounted(execute);
+  
+  watch(
+    () => props.id,
+    (id) => {
+      execute(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+    },
+    { immediate: true }
+  );
 </script>
